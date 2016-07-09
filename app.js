@@ -7,8 +7,19 @@ var mongoose = require('mongoose');
   post = require('./routes/post');
 var path = require('path');
 
-  // ToDoスキーマを定義する
+
+//ToDoリストスキーマを定義する
   var Schema = mongoose.Schema;
+
+  var listSchema = new Schema({
+    title :String
+  });
+  mongoose.model('List', listSchema);
+
+
+
+
+  // ToDoスキーマを定義する
   var todoSchema = new Schema({
     isCheck     : {type: Boolean, default: false},
     text        : String,
@@ -61,6 +72,32 @@ app.post('/todo', function(req, res) {
     todo.text = name;
     todo.limitDate = limit;
     todo.save();
+
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
+
+
+// listにGETアクセスしたとき、ToDo一覧を取得するAPI
+app.get('/list', function(req, res) {
+  var List = mongoose.model('List');
+  // すべてのlistを取得して送る
+  List.find({}, function(err, lists) {
+    res.send(lists);
+  });
+});
+
+// /listにPOSTアクセスしたとき、Listを追加するAPI
+app.post('/list', function(req, res) {
+  var title = req.body.listText;
+  // ToDoの名前と期限のパラーメタがあればMongoDBに保存
+  if(title) {
+    var List = mongoose.model('List');
+    var list = new List();
+    list.title = title;
+    list.save();
 
     res.send(true);
   } else {

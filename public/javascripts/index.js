@@ -1,11 +1,11 @@
 // ページが表示されたときToDoリストを表示する
 $(function(){
-  getTodo();
+  getList();
 });
 
 // フォームを送信ボタンを押すと、ToDoを追加して再表示する。
 $('#form').submit(function(){
-  postTodo();
+  postList();
   return false;
 });
 
@@ -14,17 +14,16 @@ $('#form').submit(function(){
 
 
 // ToDo一覧を取得して表示する
-function getTodo(){
+function getList(){
   // すでに表示されている一覧を非表示にして削除する
   var $list = $('.list');
   $list.fadeOut(function(){
     $list.children().remove();
     // /todoにGETアクセスする
-    $.get('/todo', function(todos){
+    $.get('/list', function(lists){
       // 取得したToDoを追加していく
-      $.each(todos, function(index, todo){
-        var limit = new Date(todo.limitDate);
-        $list.append('<p id="todoDetail"><a href="todo.html"><input type="checkbox" ' + (todo.isCheck ? 'checked' : '') + '>' + todo.text + ' (~' + limit.toLocaleString() + ')</a></p>');
+      $.each(lists, function(index, list){
+        $list.append('<p id="todoList">' + list.title + '</p>');
       });
       // 一覧を表示する
       $list.fadeIn();
@@ -35,19 +34,17 @@ function getTodo(){
 }
 
 // フォームに入力されたToDoを追加する
-function postTodo(){
+function postList(){
   // フォームに入力された値を取得
-  var name = $('#text').val();
-  var limitDate = new Date($('#limit').val());
+  var title = $('#listText').val();
 
   //入力項目を空にする。フォームの中の値をからにする。valはフォームの中の
-  $('#text').val('');
-  $('#limit').val('');
+  $('#listText').val('');
 
-  // /todoにPOSTアクセスする
-  $.post('/todo', {name: name, limit: limitDate}, function(res){
+  // /listにPOSTアクセスする
+  $.post('/list', {title: title}, function(res){
     console.log(res);
     //再度表示する
-    getTodo();
+    getList();
   });
 }

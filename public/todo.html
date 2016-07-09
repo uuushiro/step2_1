@@ -1,23 +1,27 @@
 <div id="header"></div>
 
-<p>新しいToDoリストを作成する</p>
+<div class="title"></di>
     <!-- ToDo入力フォームを作成する-->
     <div class="form">
       <form id="form">
         <p>新しくToDoを作成する</p>
         <p>
-          <label for="text">リスト</label>
-          <input id="listText" type="text" name="text">
+          <label for="text">内容</label>
+          <input id="text" type="text" name="text">
         </p>
         <p>
-          <input type="submit" value="リストの作成">
+          <label for="limit">期限</label>
+          <input id="limit" type="date" name="limit">
+        </p>
+        <p>
+          <input type="submit" value="ToDoの追加">
         </p>
       </form>
     </div>
     <!-- ToDo一覧を表示する-->
     <div class="list"></div>
     <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-    <script src="./javascripts/index.js"></script>
+    <script src="./javascripts/todo.js"></script>
     <script>$('#header').load('header.html');</script>
     <script>$('#footer').load('footer.html');</script>
 <div id="footer"></div>

@@ -1,0 +1,32 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+h1{
+  margin: 0 0 10px;
+    font-size: 300%;
+    line-height: 1.5;
+}
+
+p.searchlink{
+  text-align: right
+}
+
+#heading{
+  background-color: #dedede;
+}
+
+div.form {
+border-width: thick;
+border-color: #dedede;
+border-style: solid;
+padding : 20px ;
+}
+
+#todoDetail{
+  border-width: thick;
+  border-color: #dedede;
+  border-style: solid;
+  padding : 20px ;
+}
