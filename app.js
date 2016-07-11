@@ -11,10 +11,8 @@ var path = require('path');
 //ToDoリストスキーマを定義する
   var Schema = mongoose.Schema;
 
-  var listSchema = new Schema({
-    title :String
-  });
-  mongoose.model('List', listSchema);
+
+
 
 
 
@@ -26,7 +24,32 @@ var path = require('path');
     createdDate : {type: Date, default: Date.now},
     limitDate   : Date
   });
-  mongoose.model('Todo', todoSchema);
+  Todo = mongoose.model('Todo', todoSchema);
+
+
+  var listSchema = new Schema({
+    title :String,
+    todos :[todoSchema]
+  });
+  mongoose.model('List', listSchema);
+
+
+
+  Todo.findOne({ _id:  }, function(err, post) {
+    if (!err) {
+      var todos = {};
+      todos.isCheck = false;
+      todos.text  = '内容';
+      todos.createdDate  = Date.now();
+      todos.todos.push(todos);  // 追加
+      post.save(function(err) {
+        // ...
+      });
+    } else {
+      console.log('error findOne: ' + err);
+    }
+  });
+
 
 
 
@@ -91,9 +114,7 @@ app.get('/list', function(req, res) {
 
 // /listにPOSTアクセスしたとき、Listを追加するAPI
 app.post('/list', function(req, res) {
-  var title = req.body.title;
-  //このconsoleでキーとバリューが見える
-    console.log(req.body);
+  var title = req.body.listText;
   // ToDoの名前と期限のパラーメタがあればMongoDBに保存
   if(title) {
     var List = mongoose.model('List');

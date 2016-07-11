@@ -24,7 +24,7 @@ function getTodo(){
       // 取得したToDoを追加していく
       $.each(todos, function(index, todo){
         var limit = new Date(todo.limitDate);
-        $list.append('<p id="todoDetail"><a href="todo.html"><input type="checkbox" ' + (todo.isCheck ? 'checked' : '') + '>' + todo.text + ' (~' + limit.toLocaleString() + ')</a></p>');
+        $list.append('<p id="todoDetail"><input type="checkbox" ' + (todo.isCheck ? 'checked' : '') + '>' + todo.text + ' (~' + limit.toLocaleString() + ')</p>');
       });
       // 一覧を表示する
       $list.fadeIn();

@@ -23,7 +23,7 @@ function getList(){
     $.get('/list', function(lists){
       // 取得したToDoを追加していく
       $.each(lists, function(index, list){
-        $list.append('<p id="todoList">' + list.title + '</p>');
+        $list.append('<p id="todoList"><a href="todo.html">' + list.title + '</a></p>');
       });
       // 一覧を表示する
       $list.fadeIn();
