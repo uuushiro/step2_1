@@ -115,7 +115,7 @@ app.get('/list', function(req, res) {
 
 // /listにPOSTアクセスしたとき、Listを追加するAPI
 app.post('/list', function(req, res) {
-  var title = req.body.listText;
+  var title = req.body.title;
   // ToDoの名前と期限のパラーメタがあればMongoDBに保存
   if(title) {
     var List = mongoose.model('List');
