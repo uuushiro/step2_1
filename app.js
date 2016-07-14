@@ -30,25 +30,26 @@ var path = require('path');
   var listSchema = new Schema({
     title :String,
     todos :[todoSchema]
+
   });
   mongoose.model('List', listSchema);
 
 
-
-  Todo.findOne({ _id:  }, function(err, post) {
-    if (!err) {
-      var todos = {};
-      todos.isCheck = false;
-      todos.text  = '内容';
-      todos.createdDate  = Date.now();
-      todos.todos.push(todos);  // 追加
-      post.save(function(err) {
-        // ...
-      });
-    } else {
-      console.log('error findOne: ' + err);
-    }
-  });
+  //
+  // Todo.findOne({ _id: post_id }, function(err, post) {
+  //   if (!err) {
+  //     var todos = {};
+  //     todos.isCheck = false;
+  //     todos.text  = '内容';
+  //     todos.createdDate  = Date.now();
+  //     todos.todos.push(todos);  // 追加
+  //     post.save(function(err) {
+  //       // ...
+  //     });
+  //   } else {
+  //     console.log('error findOne: ' + err);
+  //   }
+  // });
 
 
 
