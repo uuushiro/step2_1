@@ -13,7 +13,7 @@ $('#form').submit(function(){
 
 
 
-// ToDo一覧を取得して表示する
+// ToDoリスト一覧を取得して表示する
 function getList(){
   // すでに表示されている一覧を非表示にして削除する
   var $list = $('.list');
@@ -33,7 +33,7 @@ function getList(){
 
 }
 
-// フォームに入力されたToDoを追加する
+// フォームに入力されたToDoリストを追加する
 function postList(){
   // フォームに入力された値を取得
   var title = $('#listText').val();
@@ -43,7 +43,7 @@ function postList(){
 
   // /listにPOSTアクセスする
   $.post('/list', {title: title}, function(res){
-    console.log(res);
+    //console.log(res);
     //再度表示する
     getList();
   });
