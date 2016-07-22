@@ -13,24 +13,28 @@ $('#form').submit(function(){
 
 // ToDo一覧を取得して表示する
 function getTodo(){
-  // すでに表示されている一覧を非表示にして削除する
-  var $list = $('.list');
-  $list.fadeOut(function(){
-    $list.children().remove();
     // /todoにGETアクセスする
-    $.get('/getTodoHtmlPage/:listname', function(todos){
-      // 取得したToDoを追加していく
-      console.log(todos)
-      $.each(todos, function(index, todo){
-        var limit = new Date(todo.limitDate);
-        $list.append('<p id="todoDetail"><input type="checkbox" ' + (todo.isCheck ? 'checked' : '') + '>' + todo.text + ' (~' + limit.toLocaleString() + ')</p>');
-      });
-      // 一覧を表示する
-      $list.fadeIn();
-    });
-  });
+    $.get('/todo', refreshTodos);
 }
 
+function refreshTodos(todos) {
+  var $list = $('#todoList');
+  // $list.fadeOut(function(){});
+  // $list.fadeIn();
+
+  // /todoにGETアクセスする
+  // 取得したToDoを追加していく
+  console.log(todos)
+  $.each(todos, refreshTodo);
+  // 一覧を表示する
+
+}
+function refreshTodo(index, todo) {
+  console.log(todo);
+  var $list = $('#todoList');
+  var limit = new Date(todo.limitDate);
+  $list.append('<p id="todoDetail"><input type="checkbox" ' + (todo.isCheck ? 'checked' : '') + '>' + todo.text + ' (~' + limit.toLocaleString() + ')</p>');
+}
 
 // // ToDo一覧を取得して表示する
 // function getTodo(){
@@ -75,7 +79,7 @@ function getTodo(){
 // フォームに入力されたToDoを追加する
 function postTodo(){
   // フォームに入力された値を取得
-  var name = $('#text').val();
+  var text = $('#text').val();
   var limitDate = new Date($('#limit').val());
   var listname = $('h1').text();
   //入力項目を空にする。フォームの中の値をからにする。valはフォームの中の
@@ -83,9 +87,20 @@ function postTodo(){
   $('#limit').val('');
 
   // /todoにPOSTアクセスする
-  $.post('/todo', {name: name, limit: limitDate, listname: listname}, function(res){
+
+var todo = {
+  text: text,
+  limitDate: limitDate,
+  listname: listname,
+  isCheck: false
+};
+
+  $.post('/todo', todo, function(res){
     console.log(res);
-    //再度表示する
-    getTodo();
-  });
+    if (res){
+      refreshTodo(0,todo);
+    } else {
+      console.log(res);
+    }
+    });
 }

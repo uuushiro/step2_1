@@ -1,3 +1,5 @@
+<% include header %>
+
 <div class="title"></div>
 <h1><%= listname %></h1>
 
@@ -20,8 +22,11 @@
 </div>
 
 <!-- ToDo一覧を表示する-->
-<div class="list"></div>
+<div id="todoList">
+aiueo
+
+</div>
 <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 <script src="../javascripts/todo.js"></script>
-<script>$('#header').load('header.html');</script>
-<script>$('#footer').load('footer.html');</script>
+
+<% include footer %>
