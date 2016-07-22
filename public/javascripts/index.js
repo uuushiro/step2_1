@@ -22,16 +22,24 @@ function getList(){
     // /todoにGETアクセスする
     $.get('/list', function(lists){
       // 取得したToDoを追加していく
-      $.each(lists, function(index, list){
-        $list.append('<p id="todoList"><a href="todo.html">' + list.title + '</a></p>');
+      $.each(lists, function(index, list) {
+        $list.append('<p class="todoList"><a href="/getTodoHtmlPage/' + list.listname +'">'  + list.listname + '</a></p>');
       });
-      // 一覧を表示する
-      $list.fadeIn();
+      // $.each($list.children(),function (index,list) {
+      //   $(list).on('click',function(){
+      //     var listname = $(list).text();
+      //     $.get('/getTodoHtmlPage/'+listname,{},
+      //     function (err,docs) {
+      //       console.log(err);
+      //       console.log(docs);
+      //     })
     });
   });
-
-
+      // 一覧を表示する
+      $list.fadeIn();
 }
+
+
 
 // フォームに入力されたToDoリストを追加する
 function postList(){
@@ -40,6 +48,7 @@ function postList(){
 
   //入力項目を空にする。フォームの中の値をからにする。valはフォームの中の
   $('#listText').val('');
+  console.log(title);
 
   // /listにPOSTアクセスする
   $.post('/list', {title: title}, function(res){
