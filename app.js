@@ -84,6 +84,20 @@ app.get('/todo', function(req, res) {
   });
 });
 
+
+app.post('/todo',function(req,res){
+  var Todo = mongoose.model('Todo');
+  var todo = new Todo();
+  todo.isCheck = req.body.isCheck;
+  todo.text = req.body.text;
+  todo.limitDate = req.body.limitDate;
+  todo.listname = req.body.listname;
+  todo.save(function(err) {
+    if (!err) { res.send(true); }
+    else{res.send(false);}
+  });
+})
+
 // /todoにPOSTアクセスしたとき、ToDoを追加するAPI
 app.post('/getTodoHtmlPage/:listname', function(req, res) {
   var name = req.body.name;
