@@ -1,7 +1,7 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var methodOverride = require('method-override')
+var methodOverride = require('method-override');
 var mongoose = require('mongoose');
   app = express();
   post = require('./routes/post');
@@ -22,15 +22,14 @@ var path = require('path');
     isCheck     : {type: Boolean, default: false},
     text        : String,
     createdDate : {type: Date, default: Date.now},
-    limitDate   : Date
+    limitDate   : Date,
+    listname    : String
   });
   Todo = mongoose.model('Todo', todoSchema);
 
 
   var listSchema = new Schema({
-    title :String,
-    todos :[todoSchema]
-
+    listname :String
   });
   mongoose.model('List', listSchema);
 
@@ -65,11 +64,11 @@ var path = require('path');
   app.use(methodOverride(function(req, res){
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       // look in urlencoded POST bodies and delete it
-      var method = req.body._method
-      delete req.body._method
+      var method = req.body._method;
+      delete req.body._method;
       return method
     }
-  }))
+  }));
   app.use(express.static(path.join(__dirname, 'public')));
 
   mongoose.connect('mongodb://localhost/local');
@@ -82,19 +81,21 @@ app.get('/todo', function(req, res) {
   // すべてのToDoを取得して送る
   Todo.find({}, function(err, todos) {
     res.send(todos);
-  });
+  });v
 });
 
 // /todoにPOSTアクセスしたとき、ToDoを追加するAPI
-app.post('/todo', function(req, res) {
+app.post('/getTodoHtmlPage/:listname', function(req, res) {
   var name = req.body.name;
   var limit = req.body.limit;
+  var listname = req.body.listname;
   // ToDoの名前と期限のパラーメタがあればMongoDBに保存
   if(name && limit) {
     var Todo = mongoose.model('Todo');
     var todo = new Todo();
     todo.text = name;
     todo.limitDate = limit;
+    todo.listname = listname;
     todo.save();
 
     res.send(true);
@@ -115,12 +116,13 @@ app.get('/list', function(req, res) {
 
 // /listにPOSTアクセスしたとき、Listを追加するAPI
 app.post('/list', function(req, res) {
-  var title = req.body.title;
+  var listname = req.body.title;
+  console.log(listname);
   // ToDoの名前と期限のパラーメタがあればMongoDBに保存
-  if(title) {
+  if(listname) {
     var List = mongoose.model('List');
     var list = new List();
-    list.title = title;
+    list.listname = listname;
     list.save();
 
     res.send(true);
@@ -129,6 +131,53 @@ app.post('/list', function(req, res) {
   }
 });
 
+
+app.get('/getTodoHtmlPage/:listname',function(req,res) {
+  if (req.params.listname) {
+    var Todo = mongoose.model('Todo');
+    var listname = req.params.listname;
+    Todo.find({listname: listname}, function (err, docs) {
+      if(!err) {
+        // for (var i = 0; i < docs.length; i++) {
+          res.render('todo', {todos: docs, listname: listname});
+          // res.send(docs);
+
+      }
+    });
+  }
+});
+
+
+// app.get('/getTodoHtmlPage/:listname',function(req,res) {
+//   if (req.params.listname) {
+//     res.render('todo', {listname: req.params.listname});
+//     var Todo = mongoose.model('Todo');
+//     var listname = req.params.listname;
+//     Todo.find({listname: listname}, function (err, docs) {
+//       if(!err) {
+//       for (var i = 0; i < docs.length; i++ ) {
+//         console.log(docs[i]);
+//         res.render('todo',{todos: docs[i]});
+//       }
+//       }
+//     });
+//   }
+// });
+
+//
+// var todoValues = [];
+// lists.forEach(function(list) {
+//   var todoCount = 0;
+//   var todoLength = list.todos.length;
+//   list.todos.forEach(function(todo) {
+//     if(todo.isCheck) {
+//       todoCount++;
+//     }
+//   });
+//   todoValues.push({
+//     todoCount : todoCount,
+//     todoLength :  todoLength
+//   });
 
 
 
