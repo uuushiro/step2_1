@@ -3,6 +3,11 @@
 <div class="title"></div>
 <h1><%= listname %></h1>
 
+<%
+var data = todos;
+%>
+
+
 <!-- ToDo入力フォームを作成する-->
 <div class="form">
     <form id="form">
@@ -22,10 +27,22 @@
 </div>
 
 <!-- ToDo一覧を表示する-->
-<div id="todoList">
-aiueo
+<% data.forEach(function(detail){ %>
+<div id="textDetail">
+    <h2 class="text"><%= detail.text %></h2>
 
+    <div class="todosBody">
+        <p class="limitData">期限: <%= detail.limitDate.toLocaleString() %></p>
+        <ul class="ingredients">
+            チェック<input type="checkbox"detail.isCheck?>
+        </ul>
+    </div>
 </div>
+<% }) %>
+
+<!--<div id="todoList">-->
+
+<!--</div>-->
 <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 <script src="../javascripts/todo.js"></script>
 

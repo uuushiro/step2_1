@@ -3,13 +3,13 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var mongoose = require('mongoose');
-  app = express();
-  post = require('./routes/post');
+app = express();
+post = require('./routes/post');
 var path = require('path');
 
 
 //ToDoリストスキーマを定義する
-  var Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 
 
@@ -17,61 +17,61 @@ var path = require('path');
 
 
 
-  // ToDoスキーマを定義する
-  var todoSchema = new Schema({
-    isCheck     : {type: Boolean, default: false},
-    text        : String,
-    createdDate : {type: Date, default: Date.now},
-    limitDate   : Date,
-    listname    : String
-  });
-  Todo = mongoose.model('Todo', todoSchema);
+// ToDoスキーマを定義する
+var todoSchema = new Schema({
+  isCheck     : {type: Boolean, default: false},
+  text        : String,
+  createdDate : {type: Date, default: Date.now},
+  limitDate   : Date,
+  listname    : String
+});
+Todo = mongoose.model('Todo', todoSchema);
 
 
-  var listSchema = new Schema({
-    listname :String
-  });
-  mongoose.model('List', listSchema);
+var listSchema = new Schema({
+  listname :String
+});
+mongoose.model('List', listSchema);
 
 
-  //
-  // Todo.findOne({ _id: post_id }, function(err, post) {
-  //   if (!err) {
-  //     var todos = {};
-  //     todos.isCheck = false;
-  //     todos.text  = '内容';
-  //     todos.createdDate  = Date.now();
-  //     todos.todos.push(todos);  // 追加
-  //     post.save(function(err) {
-  //       // ...
-  //     });
-  //   } else {
-  //     console.log('error findOne: ' + err);
-  //   }
-  // });
+//
+// Todo.findOne({ _id: post_id }, function(err, post) {
+//   if (!err) {
+//     var todos = {};
+//     todos.isCheck = false;
+//     todos.text  = '内容';
+//     todos.createdDate  = Date.now();
+//     todos.todos.push(todos);  // 追加
+//     post.save(function(err) {
+//       // ...
+//     });
+//   } else {
+//     console.log('error findOne: ' + err);
+//   }
+// });
 
 
 
 
-  app.set('views',__dirname + '/views');
-  app.set('view engine', 'ejs');
+app.set('views',__dirname + '/views');
+app.set('view engine', 'ejs');
 
 
 //middleware
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: true}));
-  app.use(methodOverride(function(req, res){
-    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-      // look in urlencoded POST bodies and delete it
-      var method = req.body._method;
-      delete req.body._method;
-      return method
-    }
-  }));
-  app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride(function(req, res){
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method;
+    delete req.body._method;
+    return method
+  }
+}));
+app.use(express.static(path.join(__dirname, 'public')));
 
-  mongoose.connect('mongodb://localhost/local');
+mongoose.connect('mongodb://localhost/local');
 
 //routing
 
@@ -96,7 +96,7 @@ app.post('/todo',function(req,res){
     if (!err) { res.send(true); }
     else{res.send(false);}
   });
-})
+});
 
 // /todoにPOSTアクセスしたとき、ToDoを追加するAPI
 app.post('/getTodoHtmlPage/:listname', function(req, res) {
@@ -150,11 +150,11 @@ app.get('/getTodoHtmlPage/:listname',function(req,res) {
   if (req.params.listname) {
     var Todo = mongoose.model('Todo');
     var listname = req.params.listname;
-    Todo.find({listname: listname}, function (err, docs) {
+    Todo.find({listname: listname}, function (err, todos) {
       if(!err) {
         // for (var i = 0; i < docs.length; i++) {
-          res.render('todo', {todos: docs, listname: listname});
-          // res.send(docs);
+        res.render('todo', {todos: todos, listname: listname});
+        // res.send(docs);
 
       }
     });
@@ -199,5 +199,5 @@ app.get('/getTodoHtmlPage/:listname',function(req,res) {
 
 
 
-  app.listen(3000);
-  console.log('server listening...');
+app.listen(3000);
+console.log('server listening...');

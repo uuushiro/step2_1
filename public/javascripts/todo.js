@@ -18,17 +18,18 @@ function getTodo(){
 }
 
 function refreshTodos(todos) {
-  var $list = $('#todoList');
-  // $list.fadeOut(function(){});
-  // $list.fadeIn();
+  var $list = $('#textDatail');
+
 
   // /todoにGETアクセスする
   // 取得したToDoを追加していく
-  console.log(todos)
+  console.log(todos);
   $.each(todos, refreshTodo);
   // 一覧を表示する
-
+  $list.fadeOut(function(){});
+  $list.fadeIn();
 }
+
 function refreshTodo(index, todo) {
   console.log(todo);
   var $list = $('#todoList');
@@ -99,6 +100,8 @@ var todo = {
     console.log(res);
     if (res){
       refreshTodo(0,todo);
+      getTodo()
+      location.reload()
     } else {
       console.log(res);
     }
