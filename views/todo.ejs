@@ -30,15 +30,22 @@ var data = todos;
 <% data.forEach(function(detail){ %>
 <div id="textDetail">
     <h2 class="text"><%= detail.text %></h2>
-
     <div class="todosBody">
         <p class="limitData">期限: <%= detail.limitDate.toLocaleString() %></p>
+        <p class="createData">作成日: <%= detail.createdDate.toLocaleString() %></p>
+
         <ul class="ingredients">
-            チェック<input type="checkbox"detail.isCheck?>
+            <% if(detail.isCheck){ %>
+            チェック<input type="checkbox" class="checkedArea" checked="checked" value="<%= detail._id %>">
+            <% } else { %>
+            チェック<input type="checkbox" class="checkedArea"  value="<%= detail._id %>">
+            <% } %>
         </ul>
     </div>
 </div>
 <% }) %>
+
+
 
 <!--<div id="todoList">-->
 

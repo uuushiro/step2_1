@@ -25,6 +25,13 @@ function getList(){
       $.each(lists, function(index, list) {
         $list.append('<p class="todoList"><a href="/getTodoHtmlPage/' + list.listname +'">'  + list.listname + '</a></p>');
       });
+
+   var $checks = $('.checks');
+    $.get('/todo',function(checks){
+      $.each(checks,function (index, check) {
+      $checks.append()
+      })
+    });
       // $.each($list.children(),function (index,list) {
       //   $(list).on('click',function(){
       //     var listname = $(list).text();
@@ -38,6 +45,7 @@ function getList(){
       // 一覧を表示する
       $list.fadeIn();
 }
+
 
 
 

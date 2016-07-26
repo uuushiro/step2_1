@@ -11,12 +11,6 @@ var path = require('path');
 //ToDoリストスキーマを定義する
 var Schema = mongoose.Schema;
 
-
-
-
-
-
-
 // ToDoスキーマを定義する
 var todoSchema = new Schema({
   isCheck     : {type: Boolean, default: false},
@@ -32,25 +26,6 @@ var listSchema = new Schema({
   listname :String
 });
 mongoose.model('List', listSchema);
-
-
-//
-// Todo.findOne({ _id: post_id }, function(err, post) {
-//   if (!err) {
-//     var todos = {};
-//     todos.isCheck = false;
-//     todos.text  = '内容';
-//     todos.createdDate  = Date.now();
-//     todos.todos.push(todos);  // 追加
-//     post.save(function(err) {
-//       // ...
-//     });
-//   } else {
-//     console.log('error findOne: ' + err);
-//   }
-// });
-
-
 
 
 app.set('views',__dirname + '/views');
@@ -75,6 +50,27 @@ mongoose.connect('mongodb://localhost/local');
 
 //routing
 
+app.get('/',function (req,res) {
+  var List = mongoose.model('List');
+  List.find({},function (err,lists) {
+    var Todo = mongoose.model('Todo');
+    Todo.find({},function (err,todos) {
+    res.render('index',{lists: lists, todos: todos});
+  });
+  });
+});
+
+
+
+// app.get('/',function (req,res) {
+//   var List = mongoose.model('List');
+//   // すべてのlistを取得して送る
+//   List.find({}, function(err, lists) {
+//     res.send(lists);
+//   });
+// });
+
+
 // /todoにGETアクセスしたとき、ToDo一覧を取得するAPI
 app.get('/todo', function(req, res) {
   var Todo = mongoose.model('Todo');
@@ -86,9 +82,12 @@ app.get('/todo', function(req, res) {
 
 
 app.post('/todo',function(req,res){
+  console.log(req.body);
   var Todo = mongoose.model('Todo');
   var todo = new Todo();
-  todo.isCheck = req.body.isCheck;
+  Todo.update({_id:req.body._id}, {isCheck:req.body.flag}, {upsert: true}, function(err) {
+  });
+  // todo.isCheck = req.body.isCheck;
   todo.text = req.body.text;
   todo.limitDate = req.body.limitDate;
   todo.listname = req.body.listname;
@@ -98,25 +97,47 @@ app.post('/todo',function(req,res){
   });
 });
 
-// /todoにPOSTアクセスしたとき、ToDoを追加するAPI
-app.post('/getTodoHtmlPage/:listname', function(req, res) {
-  var name = req.body.name;
-  var limit = req.body.limit;
-  var listname = req.body.listname;
-  // ToDoの名前と期限のパラーメタがあればMongoDBに保存
-  if(name && limit) {
-    var Todo = mongoose.model('Todo');
-    var todo = new Todo();
-    todo.text = name;
-    todo.limitDate = limit;
-    todo.listname = listname;
-    todo.save();
 
-    res.send(true);
-  } else {
-    res.send(false);
+
+
+
+
+
+app.get('/getTodoHtmlPage/:listname',function(req,res) {
+  if (req.params.listname) {
+    var Todo = mongoose.model('Todo');
+    var listname = req.params.listname;
+    Todo.find({listname: listname}, function (err, todos) {
+      if(!err) {
+        // for (var i = 0; i < docs.length; i++) {
+        res.render('todo', {todos: todos, listname: listname});
+        // res.send(docs);
+
+      }
+    });
   }
 });
+
+//
+// // /tPOSTアクセスしたとき、ToDoを追加するAPI
+// app.post('/getTodoHtmlPage/:listname', function(req, res) {
+//   var name = req.body.name;
+//   var limit = req.body.limit;
+//   var listname = req.body.listname;
+//   // ToDoの名前と期限のパラーメタがあればMongoDBに保存
+//   if(name && limit) {
+//     var Todo = mongoose.model('Todo');
+//     var todo = new Todo();
+//     todo.text = name;
+//     todo.limitDate = limit;
+//     todo.listname = listname;
+//     todo.save();
+//
+//     res.send(true);
+//   } else {
+//     res.send(false);
+//   }
+// });
 
 
 // listにGETアクセスしたとき、ToDo一覧を取得するAPI
@@ -146,20 +167,7 @@ app.post('/list', function(req, res) {
 });
 
 
-app.get('/getTodoHtmlPage/:listname',function(req,res) {
-  if (req.params.listname) {
-    var Todo = mongoose.model('Todo');
-    var listname = req.params.listname;
-    Todo.find({listname: listname}, function (err, todos) {
-      if(!err) {
-        // for (var i = 0; i < docs.length; i++) {
-        res.render('todo', {todos: todos, listname: listname});
-        // res.send(docs);
 
-      }
-    });
-  }
-});
 
 
 // app.get('/getTodoHtmlPage/:listname',function(req,res) {

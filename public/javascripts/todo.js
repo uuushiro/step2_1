@@ -3,6 +3,47 @@ $(function(){
   getTodo();
 });
 
+//checkbox
+$('.checkedArea').change(function() {
+  $.ajax({
+        url: '/todo',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({flag: $(this).prop("checked"), _id: $(this).val()})
+      }
+  )
+});
+
+
+
+// var n = $('.checkedArea:checked');
+// console.log(n);
+
+
+//
+// $('.checkedArea ').change(function(){
+//   $.ajax({
+//     url: "/todo",
+//     type: "POST",
+//     cache: false,
+//     dataType: "json",
+//     data: {
+//       isChecked: $('.checkedArea:checked')
+//     },
+//     success: function(data){
+//       console.log(data);
+//       .put
+//     },
+//     error: function(data){
+//       alert('Error');
+//     }
+//   });
+// });
+//
+//
+
+
+
 // フォームを送信ボタンを押すと、ToDoを追加して再表示する。
 $('#form').submit(function(){
   postTodo();
@@ -23,7 +64,7 @@ function refreshTodos(todos) {
 
   // /todoにGETアクセスする
   // 取得したToDoを追加していく
-  console.log(todos);
+  // console.log(todos);
   $.each(todos, refreshTodo);
   // 一覧を表示する
   $list.fadeOut(function(){});
@@ -34,6 +75,7 @@ function refreshTodo(index, todo) {
   console.log(todo);
   var $list = $('#todoList');
   var limit = new Date(todo.limitDate);
+  console.log(todo.isCheck);
   $list.append('<p id="todoDetail"><input type="checkbox" ' + (todo.isCheck ? 'checked' : '') + '>' + todo.text + ' (~' + limit.toLocaleString() + ')</p>');
 }
 
@@ -100,10 +142,30 @@ var todo = {
     console.log(res);
     if (res){
       refreshTodo(0,todo);
-      getTodo()
+      getTodo();
       location.reload()
     } else {
       console.log(res);
     }
     });
 }
+
+
+//
+//
+// $.put = function(url, data, callback, type){
+//
+//   if ( $.isFunction(data) ){
+//     type = type || callback,
+//         callback = data,
+//         data = {}
+//   }
+//
+//   return $.ajax({
+//     url: url,
+//     type: 'PUT',
+//     success: callback,
+//     data: data,
+//     contentType: type
+//   });
+// };
