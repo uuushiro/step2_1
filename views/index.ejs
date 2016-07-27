@@ -32,18 +32,16 @@
     result[list].push(todo);
     }
     });
-//            console.log(result.length);
         console.log(Object.keys(result[list]).length);
     });
-    var json = JSON.parse(result);
-    var a = json.list
-    //    var isCheckNum = 0;
-//    var num = Object.keys(result[list]).length;
-//    for (var i=0;i<num)
-//    if (result.list.index.isCheck){
-//        isCheckNum =+ 1;
-//        console.log(isCheckNum);
-//    }
+
+        var isCheckNum = 0;
+    var num = Object.keys(result[list]).length;
+    for (var i=0;i<num;i++)
+    if (result.list[i].isCheck){
+        isCheckNum =+ 1;
+        console.log(isCheckNum);
+    }
 //    console.log(result);
 
 //      console.log(listData);

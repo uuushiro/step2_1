@@ -62,21 +62,28 @@ app.get('/',function (req,res) {
 
 
 
-// app.get('/',function (req,res) {
-//   var List = mongoose.model('List');
-//   // すべてのlistを取得して送る
-//   List.find({}, function(err, lists) {
-//     res.send(lists);
-//   });
-// });
-
-
 // /todoにGETアクセスしたとき、ToDo一覧を取得するAPI
 app.get('/todo', function(req, res) {
   var Todo = mongoose.model('Todo');
   // すべてのToDoを取得して送る
   Todo.find({}, function(err, todos) {
     res.send(todos);
+  });
+});
+
+
+app.get('/search',function (req,res) {
+  res.render('search');
+});
+
+
+app.get('/gogogo',function (req,res) {
+  var Todo = mongoose.model('Todo');
+  Todo.find({},function (err,todos) {
+    if(!err) {
+      res.render('search',{searchData: todos});
+
+    }
   });
 });
 
