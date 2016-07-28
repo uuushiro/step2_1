@@ -21,10 +21,10 @@
     </form>
 </div>
 <!-- ToDo一覧を表示する-->
-
-
 <%
+
     var result = {};
+    var todoValues = [];
     listData.forEach(function(list){
     result[list] = [];
     todoData.forEach(function(todo) {
@@ -32,29 +32,54 @@
     result[list].push(todo);
     }
     });
-        console.log(Object.keys(result[list]).length);
+        var checkCount = 0;
+        var todoCount = result[list].length;
+        result[list].forEach(function (checked) {
+            if(checked.isCheck) {
+                checkCount++;
+            }
+        });
+        todoValues.push({
+            todoCount: todoCount,
+            checkCount: checkCount
+        });
+        console.log(todoValues);
+
+
+
+//        console.log(todoCount);
+//        console.log(Object.keys(result[list]).length);
+//        console.log(result[list])
     });
 
-        var isCheckNum = 0;
-    var num = Object.keys(result[list]).length;
-    for (var i=0;i<num;i++)
-    if (result.list[i].isCheck){
-        isCheckNum =+ 1;
-        console.log(isCheckNum);
-    }
-//    console.log(result);
-
-//      console.log(listData);
-//      console.log(todoData);
-//    console.log(result);
 %>
 
 
 
-<div class="list"></div>
+
+
+<% for (var i=0;i<listData.length;i++){
+    %>
+<% for (var i=0;i<listData.length;i++) {%>
+
+<div id="textDetail">
+    <h2 class="text"><p class="todoList"><a href="/getTodoHtmlPage/<%=listData[i].listname%>"><%=listData[i].listname%></a></p></h2>
+    <p class="finish"><%= todoValues[i]['todoCount'] %>個中<%= todoValues[i]['checkCount']%>個がチェック済み%></p>
+    <p class="Deadline"></p>
+</div>
+
+<%
+}
+    } %>
+
+
+
+
+
+<!--<div class="list"></div>-->
 <div class="checks"></div>
 <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-<script src="javascripts/index.js"></script>
+<script src="../javascripts/index.js"></script>
 
 
 

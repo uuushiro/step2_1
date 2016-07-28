@@ -1,24 +1,29 @@
 <% include header %>
 
-<%
- var searchData = searchData;
-    console.log(searchData);
- %>
-
 
 
 <h1>検索</h1>
 <!-- ToDo入力フォームを作成する-->
 <div class="search">
-    <p>
-        <input type="search" id="textArea" name="example2" size="30" maxlength="30" autofocus>
-        <input type="submit" id="search "value="検索">
-    </p>
+    <form id="doSearch">
+        <input type="text" id="textArea" size="30" maxlength="30">
+        <input type="button" id="search"value="検索">
+    </form>
 </div>
 
 
 
+<ul id="fuga" style="list-style:none;">
+</ul>
+
+
+
+
+
+
 <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-<script src="javascripts/search.js"></script>
+<script src="../javascripts/search.js"></script>
+
+
 
 <% include footer %>

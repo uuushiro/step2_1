@@ -6,6 +6,7 @@ $(function(){
 // フォームを送信ボタンを押すと、ToDoを追加して再表示する。
 $('#form').submit(function(){
   postList();
+  location.reload();
   return false;
 });
 
@@ -21,6 +22,8 @@ function getList(){
     $list.children().remove();
     // /todoにGETアクセスする
     $.get('/list', function(lists){
+      location.reload();
+
       // 取得したToDoを追加していく
       $.each(lists, function(index, list) {
         $list.append('<p class="todoList"><a href="/getTodoHtmlPage/' + list.listname +'">'  + list.listname + '</a></p>');

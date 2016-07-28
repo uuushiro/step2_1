@@ -11,6 +11,7 @@ var path = require('path');
 //ToDoリストスキーマを定義する
 var Schema = mongoose.Schema;
 
+
 // ToDoスキーマを定義する
 var todoSchema = new Schema({
   isCheck     : {type: Boolean, default: false},
@@ -77,14 +78,19 @@ app.get('/search',function (req,res) {
 });
 
 
-app.get('/gogogo',function (req,res) {
-  var Todo = mongoose.model('Todo');
-  Todo.find({},function (err,todos) {
-    if(!err) {
-      res.render('search',{searchData: todos});
-
-    }
-  });
+app.get('/goSearch/:text',function (req,res) {
+  console.log(req.params);
+  if(req.params.text) {
+    var Todo = mongoose.model('Todo');
+    re = new RegExp(req.params.text, "g");
+    Todo.find({text: re}, function (err, search) {
+      console.log(err);
+      console.log(search);
+      if (!err) {
+        res.send(search);
+      }
+    });
+  }
 });
 
 
@@ -207,7 +213,7 @@ app.post('/list', function(req, res) {
 //     todoCount : todoCount,
 //     todoLength :  todoLength
 //   });
-
+//
 
 
 
