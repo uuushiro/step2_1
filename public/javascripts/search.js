@@ -8,6 +8,7 @@ $button.click(function () {
             var node = document.getElementById('fuga');
                 if(data.length == 0){
                     var elementError = document.createElement('li');
+                        elementError.setAttribute('id', 'searchError');
                     elementError.innerHTML = "対象のTodoは見つかりません";
                     node.appendChild(elementError);
                 } else {

@@ -39,3 +39,11 @@ padding : 20px ;
   /*padding: 0.5em;*/
 
 /*}*/
+
+h3 {
+  color: red;
+}
+
+#searchError{
+  color: red;
+}
