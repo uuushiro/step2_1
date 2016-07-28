@@ -124,8 +124,6 @@ app.get('/getTodoHtmlPage/:listname',function(req,res) {
       if(!err) {
         // for (var i = 0; i < docs.length; i++) {
         res.render('todo', {todos: todos, listname: listname});
-        // res.send(docs);
-
       }
     });
   }

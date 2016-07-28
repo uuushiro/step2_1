@@ -27,6 +27,15 @@ var data = todos.reverse();
 </div>
 
 <!-- ToDo一覧を表示する-->
+
+
+<% if(data.length=="0"){
+    console.log("none");%>
+
+<h3>Todoが作成されていません</h3>
+
+<%}%>
+
 <% data.forEach(function(detail){ %>
 <div id="textDetail">
     <h2 class="text"><%= detail.text %></h2>
