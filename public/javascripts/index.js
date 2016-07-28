@@ -1,7 +1,7 @@
 // ページが表示されたときToDoリストを表示する
-$(function(){
-  getList();
-});
+// $(function(){
+//   getList();
+// });
 
 // フォームを送信ボタンを押すと、ToDoを追加して再表示する。
 $('#form').submit(function(){
@@ -12,43 +12,32 @@ $('#form').submit(function(){
 
 //ToDoのタイトルを取得する
 
-
-
 // ToDoリスト一覧を取得して表示する
-function getList(){
-  // すでに表示されている一覧を非表示にして削除する
-  var $list = $('.list');
-  $list.fadeOut(function(){
-    $list.children().remove();
-    // /todoにGETアクセスする
-    $.get('/list', function(lists){
-      location.reload();
-
-      // 取得したToDoを追加していく
-      $.each(lists, function(index, list) {
-        $list.append('<p class="todoList"><a href="/getTodoHtmlPage/' + list.listname +'">'  + list.listname + '</a></p>');
-      });
-
-   var $checks = $('.checks');
-    $.get('/todo',function(checks){
-      $.each(checks,function (index, check) {
-      $checks.append()
-      })
-    });
-      // $.each($list.children(),function (index,list) {
-      //   $(list).on('click',function(){
-      //     var listname = $(list).text();
-      //     $.get('/getTodoHtmlPage/'+listname,{},
-      //     function (err,docs) {
-      //       console.log(err);
-      //       console.log(docs);
-      //     })
-    });
-  });
-      // 一覧を表示する
-      $list.fadeIn();
-}
-
+// function getList(){
+//   // すでに表示されている一覧を非表示にして削除する
+//   var $list = $('.list');
+//   $list.fadeOut(function(){
+//     $list.children().remove();
+//     // /todoにGETアクセスする
+//     $.get('/list', function(lists){
+//
+//       // 取得したToDoを追加していく
+//       $.each(lists, function(index, list) {
+//         $list.prepend('<p class="todoList"><a href="/getTodoHtmlPage/' + list.listname +'">'  + list.listname + '</a></p>');
+//       });
+//
+//    var $checks = $('.checks');
+//     $.get('/todo',function(checks){
+//       $.each(checks,function (index, check) {
+//         $checks.prepend();
+//       })
+//     });
+//
+//   });
+//       // 一覧を表示する
+//       $list.fadeIn();
+// });
+//
 
 
 
