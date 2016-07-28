@@ -22,7 +22,7 @@
 </div>
 <!-- ToDo一覧を表示する-->
 <%
-
+//checkboxの◯個中◯個チェック済み
     var result = {};
     var todoValues = [];
     listData.forEach(function(list){
@@ -54,7 +54,24 @@
 
 %>
 
+<%
+    //日付比較
+var nowTime = new Date()
+    console.log(nowTime);
+var array = [];
+    var minArray = [];
+    for(var i=0;i<listData.length;i++) {
+        for (var i = 0; i < todoData.length; i++) {
+            var subtraction = todoData[i].limitDate - nowTime;
+            array.push(subtraction);
+        }
+        var min = array.indexOf(Math.min.apply(null,array));
+        minArray.push(min);
+    }
 
+    console.log(minArray);
+
+%>
 
 
 
