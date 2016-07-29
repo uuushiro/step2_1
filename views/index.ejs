@@ -83,7 +83,7 @@
 <div id="textDetail">
     <h2 class="text"><p class="todoList"><a href="/getTodoHtmlPage/<%=listData[i].listname%>"><%=listData[i].listname%></a></p></h2>
     <p class="finish"><%= todoValues[i]['todoCount'] %>個中<%= todoValues[i]['checkCount']%>個がチェック済み%></p>
-    <p class="Deadline">~<%= todoValues[i]['date'] %></p>
+    <p class="Deadline">~<%= todoValues[i]['date'].toLocaleString() %></p>
 </div>
 
 <%
@@ -96,46 +96,3 @@
 <script src="../javascripts/index.js"></script>
 
 <% include footer %>
-
-
-
-
-//ボツ
-
-
-//var checkDate = {};
-//var dateValues = [];
-//var nowTime = new Date()
-//listData.forEach(function(list) {
-//    checkDate[list] = [];
-//    todoData.forEach(function (todo) {
-//        if (todo.listname === list.listname) {
-//            checkDate[list].push(todo);
-//        }
-//            for(i=0;i<checkDate[list].length;i++) {
-//                var changedDate = new Date(checkDate[list][i].limitDate);
-//                var subtraction = Math.abs(changedDate.getTime() - nowTime.getTime());
-//                dateValues.push(subtraction);
-//            }
-//            console.log(dateValues);
-//    });
-//
-//});
-////console.log(dateValues);
-//
-//    //日付比較
-//
-//
-//var array = [];
-//    var minArray = [];
-//    for(var i=0;i<result.length;i++) {
-//        for (var i = 0; i < result[i].length; i++) {
-//            var changedDate = new Date(result[i].limitDate);
-//            var subtraction = Math.abs(changedDate.getTime() - nowTime.getTime());
-//            array.push(subtraction);
-//        }
-//        var min = array.indexOf(Math.min.apply(null, array));
-//
-////        minArray.push(min);
-//    }
-
