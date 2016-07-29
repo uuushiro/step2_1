@@ -1,14 +1,29 @@
-// ページが表示されたときToDoリストを表示する
-// $(function(){
-//   getList();
-// });
-
 // フォームを送信ボタンを押すと、ToDoを追加して再表示する。
 $('#form').submit(function(){
   postList();
   location.reload();
   return false;
 });
+
+
+// フォームに入力されたToDoリストを追加する
+function postList(){
+  // フォームに入力された値を取得
+  var title = $('#listText').val();
+  //入力項目を空にする。
+  $('#listText').val('');
+  // /listにPOSTアクセスする
+  $.post('/list', {title: title}, function(res){
+  });
+}
+
+
+
+// ページが表示されたときToDoリストを表示する
+// $(function(){
+//   getList();
+// });
+
 
 //ToDoのタイトルを取得する
 
@@ -38,22 +53,3 @@ $('#form').submit(function(){
 //       $list.fadeIn();
 // });
 //
-
-
-
-// フォームに入力されたToDoリストを追加する
-function postList(){
-  // フォームに入力された値を取得
-  var title = $('#listText').val();
-
-  //入力項目を空にする。フォームの中の値をからにする。valはフォームの中の
-  $('#listText').val('');
-  console.log(title);
-
-  // /listにPOSTアクセスする
-  $.post('/list', {title: title}, function(res){
-    //console.log(res);
-    //再度表示する
-    getList();
-  });
-}

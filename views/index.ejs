@@ -1,6 +1,7 @@
 <% include header %>
 
 <%
+    //renderされた配列を逆順にして取得
     var todoData = todos.reverse()
     var listData = lists.reverse()
 %>
@@ -20,53 +21,88 @@
         </p>
     </form>
 </div>
+
 <!-- ToDo一覧を表示する-->
 <%
 //checkboxの◯個中◯個チェック済み
+    //resultという空のオブジェクトを作る
     var result = {};
+    //todoValuesという、「todoの数」、「そのうちチェックされた数」、「一番迫っている期限」の3種類の値を入れる空の配列を作る
     var todoValues = [];
-    var dateValues = [];
+    //現在の日時を取得
     var nowTime = new Date()
     listData.forEach(function(list){
-    result[list] = [];
-    todoData.forEach(function(todo) {
-    if(todo.listname === list.listname) {
-    result[list].push(todo);
-    }
-    });
+        //keyがlistの連想配列を作る
+        result[list] = [];
+        todoData.forEach(function(todo) {
+        //リストとtodoのlistnameが等しい場合
+        if(todo.listname === list.listname) {
+        //listとその中に含まれるtodoを一致させる
+        result[list].push(todo);
+        }
+        });
+        //checkされている数に初期値0を代入しておく
         var checkCount = 0;
+        //あるリストに含まれるtodoの数
         var todoCount = result[list].length;
+        //dataValuesというdateを入れる空の配列を作る
         var dateValues = [];
-
         result[list].forEach(function (checked) {
             if(checked.isCheck) {
+                //checkされていたらcheckCountを1足す
                 checkCount++;
             }
-                var changedDate = new Date(checked.limitDate);
-                var subtraction = Math.abs(changedDate.getTime() - nowTime.getTime());
+            //date型としてchangeDateに代入
+            var changedDate = new Date(checked.limitDate);
+            //date型を数値に変換して、現在日時と期日の差を出す
+            var subtraction = Math.abs(changedDate.getTime() - nowTime.getTime());
+            //nullとNaNを排除する
             if (subtraction != null && !isNaN(subtraction)) {
+                //現在日時と期日の差の配列
                 dateValues.push(subtraction);
             }
         });
-
+        //現在日時と期日の差の配列の中から最も小さい値のindexを取り出す
         var min = Math.abs(dateValues.indexOf(Math.min.apply(null, dateValues)));
-
+        //取得したindex番号の数値を元にdate型に変換する
         var minDate = new Date(dateValues[min] + nowTime.getTime());
-        console.log(minDate);
-
+        //3種類の値をハッシュにして配列に追加していく
         todoValues.push({
                 todoCount: todoCount,
                 checkCount: checkCount,
                 date: minDate
         })
-
     });
-console.log(todoValues);
-
-//console.log(todoValues);
 %>
 
+
+<% for (var i=0;i<listData.length;i++){
+%>
+<% for (var i=0;i<listData.length;i++) {%>
+
+<div id="textDetail">
+    <h2 class="text"><p class="todoList"><a href="/getTodoHtmlPage/<%=listData[i].listname%>"><%=listData[i].listname%></a></p></h2>
+    <p class="finish"><%= todoValues[i]['todoCount'] %>個中<%= todoValues[i]['checkCount']%>個がチェック済み%></p>
+    <p class="Deadline">~<%= todoValues[i]['date'] %></p>
+</div>
+
 <%
+}
+} %>
+
+<!--<div class="list"></div>-->
+<div class="checks"></div>
+<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+<script src="../javascripts/index.js"></script>
+
+<% include footer %>
+
+
+
+
+//ボツ
+
+
 //var checkDate = {};
 //var dateValues = [];
 //var nowTime = new Date()
@@ -103,33 +139,3 @@ console.log(todoValues);
 ////        minArray.push(min);
 //    }
 
-%>
-
-
-
-<% for (var i=0;i<listData.length;i++){
-    %>
-<% for (var i=0;i<listData.length;i++) {%>
-
-<div id="textDetail">
-    <h2 class="text"><p class="todoList"><a href="/getTodoHtmlPage/<%=listData[i].listname%>"><%=listData[i].listname%></a></p></h2>
-    <p class="finish"><%= todoValues[i]['todoCount'] %>個中<%= todoValues[i]['checkCount']%>個がチェック済み%></p>
-    <p class="Deadline">~<%= todoValues[i]['date'] %></p>
-</div>
-
-<%
-}
-    } %>
-
-
-
-
-
-<!--<div class="list"></div>-->
-<div class="checks"></div>
-<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-<script src="../javascripts/index.js"></script>
-
-
-
-<% include footer %>

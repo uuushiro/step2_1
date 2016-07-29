@@ -8,7 +8,7 @@ post = require('./routes/post');
 var path = require('path');
 
 
-//ToDoリストスキーマを定義する
+//リストスキーマを定義する
 var Schema = mongoose.Schema;
 
 
@@ -61,8 +61,6 @@ app.get('/',function (req,res) {
   });
 });
 
-
-
 // /todoにGETアクセスしたとき、ToDo一覧を取得するAPI
 app.get('/todo', function(req, res) {
   var Todo = mongoose.model('Todo');
@@ -77,7 +75,7 @@ app.get('/search',function (req,res) {
   res.render('search');
 });
 
-
+//検索機能 paramsを元に検索する
 app.get('/goSearch/:text',function (req,res) {
   console.log(req.params);
   if(req.params.text) {
@@ -93,14 +91,13 @@ app.get('/goSearch/:text',function (req,res) {
   }
 });
 
-
+//checkの更新機能
 app.post('/todo',function(req,res){
   console.log(req.body);
   var Todo = mongoose.model('Todo');
   var todo = new Todo();
   Todo.update({_id:req.body._id}, {isCheck:req.body.flag}, {upsert: true}, function(err) {
   });
-  // todo.isCheck = req.body.isCheck;
   todo.text = req.body.text;
   todo.limitDate = req.body.limitDate;
   todo.listname = req.body.listname;
@@ -110,12 +107,7 @@ app.post('/todo',function(req,res){
   });
 });
 
-
-
-
-
-
-
+//リストの詳細画面に移動する時
 app.get('/getTodoHtmlPage/:listname',function(req,res) {
   if (req.params.listname) {
     var Todo = mongoose.model('Todo');
@@ -128,28 +120,6 @@ app.get('/getTodoHtmlPage/:listname',function(req,res) {
     });
   }
 });
-
-//
-// // /tPOSTアクセスしたとき、ToDoを追加するAPI
-// app.post('/getTodoHtmlPage/:listname', function(req, res) {
-//   var name = req.body.name;
-//   var limit = req.body.limit;
-//   var listname = req.body.listname;
-//   // ToDoの名前と期限のパラーメタがあればMongoDBに保存
-//   if(name && limit) {
-//     var Todo = mongoose.model('Todo');
-//     var todo = new Todo();
-//     todo.text = name;
-//     todo.limitDate = limit;
-//     todo.listname = listname;
-//     todo.save();
-//
-//     res.send(true);
-//   } else {
-//     res.send(false);
-//   }
-// });
-
 
 // listにGETアクセスしたとき、ToDo一覧を取得するAPI
 app.get('/list', function(req, res) {
@@ -176,46 +146,6 @@ app.post('/list', function(req, res) {
     res.send(false);
   }
 });
-
-
-
-
-
-// app.get('/getTodoHtmlPage/:listname',function(req,res) {
-//   if (req.params.listname) {
-//     res.render('todo', {listname: req.params.listname});
-//     var Todo = mongoose.model('Todo');
-//     var listname = req.params.listname;
-//     Todo.find({listname: listname}, function (err, docs) {
-//       if(!err) {
-//       for (var i = 0; i < docs.length; i++ ) {
-//         console.log(docs[i]);
-//         res.render('todo',{todos: docs[i]});
-//       }
-//       }
-//     });
-//   }
-// });
-
-//
-// var todoValues = [];
-// lists.forEach(function(list) {
-//   var todoCount = 0;
-//   var todoLength = list.todos.length;
-//   list.todos.forEach(function(todo) {
-//     if(todo.isCheck) {
-//       todoCount++;
-//     }
-//   });
-//   todoValues.push({
-//     todoCount : todoCount,
-//     todoLength :  todoLength
-//   });
-//
-
-
-
-
 
 
 app.listen(3000);
