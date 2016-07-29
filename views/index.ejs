@@ -25,6 +25,8 @@
 //checkboxの◯個中◯個チェック済み
     var result = {};
     var todoValues = [];
+    var dateValues = [];
+    var nowTime = new Date()
     listData.forEach(function(list){
     result[list] = [];
     todoData.forEach(function(todo) {
@@ -34,42 +36,72 @@
     });
         var checkCount = 0;
         var todoCount = result[list].length;
+        var dateValues = [];
+
         result[list].forEach(function (checked) {
             if(checked.isCheck) {
                 checkCount++;
             }
+                var changedDate = new Date(checked.limitDate);
+                var subtraction = Math.abs(changedDate.getTime() - nowTime.getTime());
+            if (subtraction != null && !isNaN(subtraction)) {
+                dateValues.push(subtraction);
+            }
         });
+
+        var min = Math.abs(dateValues.indexOf(Math.min.apply(null, dateValues)));
+
+        var minDate = new Date(dateValues[min] + nowTime.getTime());
+        console.log(minDate);
+
         todoValues.push({
-            todoCount: todoCount,
-            checkCount: checkCount
-        });
-        console.log(todoValues);
+                todoCount: todoCount,
+                checkCount: checkCount,
+                date: minDate
+        })
 
-
-
-//        console.log(todoCount);
-//        console.log(Object.keys(result[list]).length);
-//        console.log(result[list])
     });
+console.log(todoValues);
 
+//console.log(todoValues);
 %>
 
 <%
-    //日付比較
-var nowTime = new Date()
-    console.log(nowTime);
-var array = [];
-    var minArray = [];
-    for(var i=0;i<listData.length;i++) {
-        for (var i = 0; i < todoData.length; i++) {
-            var subtraction = todoData[i].limitDate - nowTime;
-            array.push(subtraction);
-        }
-        var min = array.indexOf(Math.min.apply(null,array));
-        minArray.push(min);
-    }
-
-    console.log(minArray);
+//var checkDate = {};
+//var dateValues = [];
+//var nowTime = new Date()
+//listData.forEach(function(list) {
+//    checkDate[list] = [];
+//    todoData.forEach(function (todo) {
+//        if (todo.listname === list.listname) {
+//            checkDate[list].push(todo);
+//        }
+//            for(i=0;i<checkDate[list].length;i++) {
+//                var changedDate = new Date(checkDate[list][i].limitDate);
+//                var subtraction = Math.abs(changedDate.getTime() - nowTime.getTime());
+//                dateValues.push(subtraction);
+//            }
+//            console.log(dateValues);
+//    });
+//
+//});
+////console.log(dateValues);
+//
+//    //日付比較
+//
+//
+//var array = [];
+//    var minArray = [];
+//    for(var i=0;i<result.length;i++) {
+//        for (var i = 0; i < result[i].length; i++) {
+//            var changedDate = new Date(result[i].limitDate);
+//            var subtraction = Math.abs(changedDate.getTime() - nowTime.getTime());
+//            array.push(subtraction);
+//        }
+//        var min = array.indexOf(Math.min.apply(null, array));
+//
+////        minArray.push(min);
+//    }
 
 %>
 
@@ -82,7 +114,7 @@ var array = [];
 <div id="textDetail">
     <h2 class="text"><p class="todoList"><a href="/getTodoHtmlPage/<%=listData[i].listname%>"><%=listData[i].listname%></a></p></h2>
     <p class="finish"><%= todoValues[i]['todoCount'] %>個中<%= todoValues[i]['checkCount']%>個がチェック済み%></p>
-    <p class="Deadline"></p>
+    <p class="Deadline">~<%= todoValues[i]['date'] %></p>
 </div>
 
 <%
